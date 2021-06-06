@@ -3,8 +3,9 @@ import requests
 import zipfile
 import os
 import sys
+import stat
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 BASE_URL = 'https://chromedriver.storage.googleapis.com'
 
@@ -30,6 +31,9 @@ def download_chromedriver(chrome_version: str = None):
         f.extractall()
 
     os.remove(zip_path)
+
+    mode = os.stat(filename)
+    os.chmod(filename, mode.st_mode | stat.S_IEXEC)
 
     return filename
 
